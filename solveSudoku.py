@@ -85,6 +85,11 @@ cand_col6 = list(set(one2nine) - set(col6))
 cand_col7 = list(set(one2nine) - set(col7))
 cand_col8 = list(set(one2nine) - set(col8))
 
+# Variables used to print the Sudoku puzzle into the terminal
+puzzleTop = "╓---┬---┬---╦---┬---┬---╦---┬---┬---╖"
+puzzleMidCell = "├---┼---┼---┼---┼---┼---┼---┼---┼---┤"
+puzzle3Border = "╟---┼---┼---╬---┼---┼---╬---┼---┼---╢"
+puzzleBottom = "╙---┴---┴---╨---┴---┴---╨---┴---┴---╜"
 
 #dict_a = {"a0": line0[0:1]}
 #print(dict_a)
@@ -118,9 +123,9 @@ def cellCandG(ID,cand_line):
 
     
 # (B) Function used to populate dictionary with pairs {'cell':'index of zero value in the cell'}
-# Define an empty dict {'cellID':'index of cells with 0 (not solved) values'}
+# Define an empty dict 'solve' = {'cellID':'index of cells with 0 (not solved) values'}
 solve = {'a':'','b':'','c':'','d':'','e':'','f':'','g':'','h':'','i':''}
-# List of 3x3 cells' names in string format
+# List of 3x3 cellIDs in string format
 zip_cell = ['a','b','c','d','e','f','g','h','i']
 # List of 3x3 cellIDs
 zip_d = [a,b,c,d,e,f,g,h,i]
@@ -135,10 +140,11 @@ checkZero()
 #print(solve)
 # (E)
 
-# (B)Function to find digits for empty cells
+# (B)Function to find candidates to lines and columns for cells with '0' (unknown) values.
 cand_line = []
 cand_col = []
-#print(cand_line0)
+
+#def solveCell(ID,cell):
 def solveCell(ID,cell):
     global cand_line
     global cand_col
@@ -167,33 +173,55 @@ def solveCell(ID,cell):
                 cand_line = cand_line7
             else:
                 cand_line = cand_line8
+
     # Candidates for columns
     if ID in ('a','d','g'):
         for i in range(len(cell)):
             if cell[i:i + 1] in ('0','3','6'):
                 cand_col = cand_col0
             elif cell[i:i + 1] in ('1','4','7'):
-                cand_line = cand_col1
+                cand_col = cand_col1
             else:
-                cand_line = cand_col2
+                cand_col = cand_col2
     if ID in ('b','e','h'):
         for i in range(len(cell)):
             if cell[i:i + 1] in ('0','3','6'):
                 cand_col = cand_col3
             elif cell[i:i + 1] in ('1','4','7'):
-                cand_line = cand_col4
+                cand_col = cand_col4
             else:
-                cand_line = cand_col5
+                cand_col = cand_col5
     if ID in ('c','f','i'):
         for i in range(len(cell)):
             if cell[i:i + 1] in ('0','3','6'):
                 cand_col = cand_col6
             elif cell[i:i + 1] in ('1','4','7'):
-                cand_line = cand_col7
+                cand_col = cand_col7
             else:
-                cand_line = cand_col8
-    print(cand_line)
-    print(cand_col)
+                cand_col = cand_col8
+    return [cand_line,cand_col]
+    #print("cand_line")
+    #print(cand_line)
+    #print("cand_col")
+    #print(cand_col)
+
+#solveCell('a','1')
+#newA,newB = solveCell('e','6')
+#print(newA)
+#print(newB)    
+    
+"""    >>> def func():
+...    return [1,2,3]
+...
+>>> a,b,c = func()
+>>> a
+1
+>>> b
+2
+>>> c
+3"""
+    #print(cand_line)
+    #print(cand_col)
 """
 cand_line = []
 print(cand_line)
@@ -211,6 +239,19 @@ print(cand_line)
 # (E)
 """
 
+# (B) Function that prints lines of Sudku puzzle formed out of 3x3 squares
+zip_col = [col0,col1,col2,col3,col4,col5,col6,col7,col8]
+
+def print3x3():
+    line_print = ""
+    for index in range(9):
+        for col in (zip_col):
+            line_print += col[index:index + 1]
+            if col == col8:
+                line_print += "\n"
+    print(line_print)
+# (E)
+
 #for k,v in solve.items():
     #print(k + " " + v)
 #    solveCell(k,v)
@@ -220,15 +261,33 @@ print(cand_line)
 #    print(ID + " " cand_cell_solve)
 
 
-solveCell('c','6')
-# Formula to calculate the unknown value inside the cell (c6 for example)
-cand_c6 = list((set(one2nine) - set(c)) & set(cand_col) & set(cand_line))
+solveCell('i','0357')
+#solveCell()
 
-print(cand_c6)
+
+# !!!!
+# Formula to calculate the unknown value inside the cell (c6 for example)
+cand_e0 = list((set(one2nine) - set(col3)) & set(cand_e) & set(cand_line3))
+
+
+
+def solution(ID,cell):
+    #for ID,cell in zip(zip_cell,zip_d):
+    sol_line,sol_col = solveCell(ID,cell)
+    cellSolution = list((set(one2nine) - set(cell)) & set(sol_col) & set(sol_line))
+    print(cellSolution)
+
+
+#while len(cand_cell) != 1:
+    # do smth
+    
+#solution(a,'1')
+#print(cand_c6)
 # If candidate to cell is the only one - remove its value from candidates lists
+"""
 if len(cand_c6) == 1:
     cand_col = list(set(cand_col) - set(cand_c6))
     cand_line = list(set(cand_line) - set(cand_c6))
     print(cand_col)
-    print(cand_line)
+    print(cand_line)"""
     
