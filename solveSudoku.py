@@ -1,8 +1,23 @@
+"""
+line0 = line1 = line2 = line3 = line4 = line5 = line6 = line7 = line8 = ""
+#zip_linex = [line0,line1,line2,line3,line4,line5,line6,line7,line8]
+#zip_index = ['1','2','3','4','5','6','7','8','9']
+
+def lineXinput():
+    global line0,line1
+    for line,index in zip(zip_linex,zip_index):
+        line = input("Please, enter digits for line number " + index + ". Use 0 for unknown digits:")
+        print(str(line))
+    
+
+lineXinput()
+"""
 # List with "0".
 zero = ["0"]
 
 # List of digits except 0.
 one2nine = ['1','2','3','4','5','6','7','8','9']
+
 
 # Structure of Sudoku puzzle from top to bottom as vars string type with digits.
 line0 = "908501703"
@@ -91,9 +106,41 @@ puzzleMidCell = "├---┼---┼---┼---┼---┼---┼---┼---┼---┤"
 puzzle3Border = "╟---┼---┼---╬---┼---┼---╬---┼---┼---╢"
 puzzleBottom = "╙---┴---┴---╨---┴---┴---╨---┴---┴---╜"
 
+def print_line(arg):
+    string = ""
+    string_begin = "│"
+    for i in range(9):
+        temp = str(*arg[i:i + 1])
+        if temp == "0":
+            string += " -" + " │"
+        else:
+            string += " " + temp + " │"
+    print(string_begin + string)
+
+def printPuzzle():
+    print(puzzleTop)
+    print_line(list_line0)
+    print(puzzleMidCell)
+    print_line(list_line1)
+    print(puzzleMidCell)
+    print_line(list_line2)
+    print(puzzle3Border)
+    print_line(list_line3)
+    print(puzzleMidCell)
+    print_line(list_line4)
+    print(puzzleMidCell)
+    print_line(list_line5)
+    print(puzzle3Border)
+    print_line(list_line6)
+    print(puzzleMidCell)
+    print_line(list_line7)
+    print(puzzleMidCell)
+    print_line(list_line8)
+    print(puzzleBottom)
 #dict_a = {"a0": line0[0:1]}
 #print(dict_a)
 
+printPuzzle()
 #print(str(col0))
 #list(col0)
 #print(cand_col1)
@@ -106,22 +153,12 @@ print(col0)"""
 
 cand_e0 = list((set(one2nine) - set(col3)) & set(cand_e) & set(cand_line3))
 cand_e7 = list((set(one2nine) - set(col4)) & set(cand_e) & set(cand_line5))
-"""
-cell_a = a
-cell_b = b
-cell_c = c
-cell_d = d
-cell_e = e
-cell_f = f
-cell_g = g
-cell_h = h
-cell_i = i
-"""
-def cellCandG(ID,cand_line):
-    cand_cell_solve = list(set(one2nine) & set(cand_g) & set(cand_line))
+
+def cellCandD7(ID,cand_line):
+    cand_cell_solve = list(set(one2nine) & set(cand_d) & set(cand_line))
     print(ID + " " + str(cand_cell_solve))
 
-    
+cellCandD7('d','7')    
 # (B) Function used to populate dictionary with pairs {'cell':'index of zero value in the cell'}
 # Define an empty dict 'solve' = {'cellID':'index of cells with 0 (not solved) values'}
 solve = {'a':'','b':'','c':'','d':'','e':'','f':'','g':'','h':'','i':''}
@@ -144,7 +181,6 @@ checkZero()
 cand_line = []
 cand_col = []
 
-#def solveCell(ID,cell):
 def solveCell(ID,cell):
     global cand_line
     global cand_col
@@ -206,7 +242,7 @@ def solveCell(ID,cell):
     #print(cand_col)
 
 #solveCell('a','1')
-#newA,newB = solveCell('e','6')
+#newA,newB = solveCell('a','1')
 #print(newA)
 #print(newB)    
     
@@ -222,9 +258,9 @@ def solveCell(ID,cell):
 3"""
     #print(cand_line)
     #print(cand_col)
-"""
+
 cand_line = []
-print(cand_line)
+#print(cand_line)
 def solve_cell(cell,ID):
     global cand_line
     if ID == 'a':
@@ -234,10 +270,10 @@ def solve_cell(cell,ID):
             else:
                 print(cell[i:i + 1])
 
-solve_cell(solve_a,'a')
-print(cand_line)
+#solve_cell(solve_a,'a')
+#print(cand_line)
 # (E)
-"""
+
 
 # (B) Function that prints lines of Sudku puzzle formed out of 3x3 squares
 zip_col = [col0,col1,col2,col3,col4,col5,col6,col7,col8]
@@ -252,36 +288,62 @@ def print3x3():
     print(line_print)
 # (E)
 
-#for k,v in solve.items():
-    #print(k + " " + v)
-#    solveCell(k,v)
+# (B) Function that defines the list of candidates to 3x3 cell using 'ID' parameter.
+# Works only with dictionary solve{}
+def candX(ID):
+    cand_x = []
+    if ID == 'a':
+        cand_x = cand_a
+    elif ID == 'b':
+        cand_x = cand_b
+    elif ID == 'c':
+        cand_x = cand_c
+    elif ID == 'd':
+        cand_x = cand_d
+    elif ID == 'e':
+        cand_x = cand_e
+    elif ID == 'f':
+        cand_x = cand_f
+    elif ID == 'g':
+        cand_x = cand_g
+    elif ID == 'h':
+        cand_x = cand_h
+    elif ID == 'i':
+        cand_x = cand_i
+    else:
+        print("Something has gone wrong!")
+    return(cand_x)
+
+# (E)
 
 #def cellCand(ID,cand_line):
 #    cand_cell_solve = list(set(one2nine) & set(cand_e) & set(cand_line))
 #    print(ID + " " cand_cell_solve)
 
 
-solveCell('i','0357')
+#print(str(cand_d))
+#solveCell('d','7')
 #solveCell()
 
 
 # !!!!
 # Formula to calculate the unknown value inside the cell (c6 for example)
-cand_e0 = list((set(one2nine) - set(col3)) & set(cand_e) & set(cand_line3))
-
+#cand_e0 = list((set(one2nine) - set(col3)) & set(cand_e) & set(cand_line3))
+#candToCell = list(((set(one2nine) - set(cand_col1)) & set(cand_d)) & set(line5))
+#print("Cand to d7 " + str(candToCell))
 
 
 def solution(ID,cell):
-    #for ID,cell in zip(zip_cell,zip_d):
     sol_line,sol_col = solveCell(ID,cell)
-    cellSolution = list((set(one2nine) - set(cell)) & set(sol_col) & set(sol_line))
-    print(cellSolution)
+    sol_cand = candX(ID)
+    cellSolution = list((set(sol_line) & set(sol_col)) & set(sol_cand))
+    print("Candidate is " + str(cellSolution))
 
 
 #while len(cand_cell) != 1:
     # do smth
     
-#solution(a,'1')
+solution('c','7')
 #print(cand_c6)
 # If candidate to cell is the only one - remove its value from candidates lists
 """
